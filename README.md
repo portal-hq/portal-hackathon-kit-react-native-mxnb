@@ -1,97 +1,70 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Portal React Native Hackathon Kit
 
-# Getting Started
+This repository shows you how you can easily integrate Arbitrum into your React Native app using the [Portal SDK](https://docs.portalhq.io/guides/react-native). It covers the following features:
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+1. Generate a wallet
+2. Fetch and display MXNB and ETH balances
+3. Transfer tokens to a given EVM address
+4. Fund your wallet with testnet tokens directly from the app (limited to once per Portal client per 24 hours)
+5. Backup the wallet with password as the key to Portal servers
+6. Recover the wallet with password as the key from Portal servers
 
-## Step 1: Start Metro
+Portal SDK also covers the following backup methods which were not covered in this example app but you can learn how to implement them through the [docs](https://docs.portalhq.io/guides/react-native/back-up-a-wallet):
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+1. Backup with iCloud
+2. Backup with GDrive
+3. Backup with Passkey
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+## How to Run This Example App
 
-```sh
-# Using npm
-npm start
+1. Clone the repo to your local system
+2. Open the project in your editor of choice
+3. Go to your Portal Dashboard [settings page](https://app.portalhq.io/settings#client-api-keys) and create a client test API key
+4. Update the **PORTAL_CLIENT_API_KEY** in `config.ts` with your Portal Client API Key
+5. Update the **ALCHEMY_API_KEY** in `config.ts` with an API key from Alchemy (you can get one [here](https://www.alchemy.com/)).
+6. Run the app with `npm run ios` or `npm run android`
 
-# OR using Yarn
-yarn start
-```
+## Understanding the Example App
 
-## Step 2: Build and run your app
+This app is made up of two main screens: Home and Wallet. The Home screen is where you can generate a new wallet or recover a backed up wallet, and the Wallet screen is where you can view your wallet details and perform transactions and backup.
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+Here are the important project files:
 
-### Android
+1. `config.ts`: This is where the configuration for the app lives.
+2. `lib/portal.ts`: This is where all the **Portal** logic is implemented. For more info on how to use the React Native Portal SDK please refer to [this doc](https://docs.portalhq.io/guides/react-native)
+3. `components/home/index.tsx`: The parent component for the Home screen
+4. `components/wallet/index.tsx`: The parent component for the Wallet screen
 
-```sh
-# Using npm
-npm run android
+## Faucets
 
-# OR using Yarn
-yarn android
-```
+You can get more `MXNB` tokens for testing with the below faucet.
 
-### iOS
+- [Juno Faucet](https://buildwithjuno.com/en-US/faucet) - Get testnet `MXNB` tokens
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## Portal Documentation
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
+### Portal SDK Reference
 
-```sh
-bundle install
-```
+Portal's SDKs have several pieces of core functionality.
 
-Then, and every time you update your native dependencies, run:
+- [Generating a Wallet](https://docs.portalhq.io/guides/react-native/create-a-wallet): This function creates MPC key shares on your local device and the Portal servers. These key shares support all EVM chains, Solana, and many other chains.
+- [Signing a Transaction](https://docs.portalhq.io/guides/react-native/sign-a-transaction): This function signs a provided transaction, and can broadcast that transaction to a chain when an RPC gateway URL is provided.
+- [Signature Hooks](https://docs.portalhq.io/guides/react-native/add-custom-signature-hooks): By default this repo will submit a transaction without prompting a user, but you can use signature hooks to build a prompt for users before submitting a transaction for signing.
 
-```sh
-bundle exec pod install
-```
+### Portal APIs
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+Portal supplies several APIs for simplifying your development.
 
-```sh
-# Using npm
-npm run ios
+- [Get Assets](https://docs.portalhq.io/reference/client-api/v3-endpoints#get-assets-by-chain): This endpoint returns a list of fungible asset (native, ERC-20, and SPL tokens) associated with your client for a given chain.
+- [Get NFTs](https://docs.portalhq.io/reference/client-api/v3-endpoints#get-nft-assets-by-chain): This endpoint returns a list of the NFTs associated with your client for a given chain.
+- [Get Transactions](https://docs.portalhq.io/reference/client-api/v3-endpoints#get-transactions-by-chain): This endpoint returns a list of the historic transactions associated with your client for a given chain.
+- [Build a Transaction - Send Asset](https://docs.portalhq.io/reference/client-api/v3-endpoints#build-a-send-asset-transaction): This endpoint builds a formatted transaction to send a fungible asset (native, ERC-20, and SPL tokens) for a given chain.
+- [Evaluate a Transaction](https://docs.portalhq.io/reference/client-api/v3-endpoints#evaluate-a-transaction): This endpoint can simulate a transaction and/or scan a transaction for security concerns.
 
-# OR using Yarn
-yarn ios
-```
+### Other Helpful Resources
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+- [What is Portal MPC?](https://docs.portalhq.io/resources/portals-mpc-architecture)
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+## Help
 
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+Need help or want to request a feature? Reach out to us on the [official Portal Community Slack](https://portalcommunity.slack.com/archives/C07EZFF9N78).
